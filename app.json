@@ -23,6 +23,12 @@
     },
     "web": {
       "favicon": "./assets/d2logo2.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f7911e3b-b0e7-42e9-b1e3-eb7381cc2d0c"
+      }
+    },
+    "owner": "klardead"
   }
 }

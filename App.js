@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,12 +8,31 @@ import {
   Dimensions,
   SafeAreaView,
   ImageBackground,
+  TouchableHighlight,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { WebView } from "react-native-webview";
 
 const Stack = createStackNavigator();
+
+const Timer = () => {
+  const [seconds, setSeconds] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds((prevSeconds) => prevSeconds + 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <Text style={styles.timerText}>
+      Столько времени ты потратил зря: {seconds} сек
+    </Text>
+  );
+};
 
 const HomeScreen = ({ navigation }) => {
   return (
@@ -57,14 +76,15 @@ const HomeScreen = ({ navigation }) => {
           >
             <Text style={styles.buttonText}>Обучение</Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          <TouchableHighlight
             style={styles.button}
             onPress={() => navigation.navigate("About")}
           >
             <Text style={styles.buttonText}>О игре</Text>
-          </TouchableOpacity>
+          </TouchableHighlight>
         </ImageBackground>
       </View>
+      <Timer />
     </SafeAreaView>
   );
 };
@@ -105,7 +125,7 @@ const About = () => {
   return (
     <View style={styles.webViewContainer}>
       <WebView
-        source={{ uri: "https://ru.wikipedia.org/wiki/Dota_2" }}
+        source={{ uri: "https://www.dota2.com/home?l=russian" }}
         style={styles.webView}
       />
     </View>
@@ -164,6 +184,13 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  timerText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#ffffff",
+    marginBottom: 20,
+    textAlign: "center",
+  },
   container: {
     flex: 1,
     backgroundColor: "#121212",
@@ -232,10 +259,10 @@ const styles = StyleSheet.create({
     color: "#ffffff",
   },
   webViewContainer: {
-    flex: 1, // Занимает оставшееся пространство
+    flex: 1,
     width: "100%",
   },
   webView: {
-    flex: 1, // Растягивается на весь контейнер
+    flex: 1,
   },
 });
